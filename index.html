@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pong Leaderboard API</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: system-ui, sans-serif;
+      background: #020408;
+      color: #f5f7ff;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; }
+    h1, h2 { color: #ffe94d; }
+    code, pre {
+      background: rgba(255,255,255,0.08);
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+    pre { padding: 16px; overflow: auto; }
+    a { color: #00ffe7; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Pong Leaderboard</h1>
+    <p>Shared leaderboard module for Cliffella Pong games.</p>
+
+    <h2>Module URL</h2>
+    <p><a href="https://cdn.jsdelivr.net/gh/clf99/pong-leaderboard@main/leaderboard.js">https://cdn.jsdelivr.net/gh/clf99/pong-leaderboard@main/leaderboard.js</a></p>
+
+    <h2>What it does</h2>
+    <ul>
+      <li>Stores shared scores on Nostr relays instead of local-only browser storage</li>
+      <li>Lets AIPong publish volley scores</li>
+      <li>Lets classic Pong publish shared match results and standings</li>
+    </ul>
+
+    <h2>Example</h2>
+    <pre><code>import * as Leaderboard from 'https://cdn.jsdelivr.net/gh/clf99/pong-leaderboard@main/leaderboard.js';
+
+const scores = await Leaderboard.fetchAiScores();</code></pre>
+  </div>
+</body>
+</html>
