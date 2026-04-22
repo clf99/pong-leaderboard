@@ -108,6 +108,8 @@
     tr:first-child td { color: var(--yellow); }
     tr:nth-child(2) td { color: var(--cyan); }
     tr:nth-child(3) td { color: #ff9cf8; }
+    tr.score-band-a td { background: rgba(0,245,212,0.05); }
+    tr.score-band-b td { background: rgba(255,76,242,0.05); }
     .empty { color: var(--muted); padding: 10px 0 2px; }
     .foot {
       margin-top: 24px;
@@ -210,15 +212,30 @@
       });
     }
 
+    function scoreBands(rows, sameValue) {
+      let lastValue = null;
+      let band = -1;
+      return rows.map((row, index) => {
+        const value = sameValue(row);
+        if (index === 0 || value !== lastValue) {
+          band += 1;
+          lastValue = value;
+        }
+        return band % 2 === 0 ? 'score-band-a' : 'score-band-b';
+      });
+    }
+
     function renderAi(scores) {
       const table = document.getElementById('aiTable');
       const body = document.getElementById('aiBody');
       const empty = document.getElementById('aiEmpty');
       body.innerHTML = '';
       const ranks = competitionRank(scores, row => row.volleys);
+      const bands = scoreBands(scores, row => row.volleys);
 
       scores.forEach((row, index) => {
         const tr = document.createElement('tr');
+        tr.className = bands[index];
         tr.innerHTML = `<td>${ranks[index]}</td><td>${row.name}</td><td class="num">${row.volleys}</td><td class="num">${row.date}</td>`;
         body.appendChild(tr);
       });
@@ -232,9 +249,11 @@
       const empty = document.getElementById('classicEmpty');
       body.innerHTML = '';
       const ranks = competitionRank(rows, row => `${row.wins}:${row.diff}`);
+      const bands = scoreBands(rows, row => `${row.wins}:${row.diff}`);
 
       rows.forEach((row, index) => {
         const tr = document.createElement('tr');
+        tr.className = bands[index];
         tr.innerHTML = `<td>${ranks[index]}</td><td>${row.name}</td><td class="num">${row.wins}</td><td class="num">${row.diff}</td><td class="num">${row.date}</td>`;
         body.appendChild(tr);
       });
