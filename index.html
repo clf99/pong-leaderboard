@@ -197,15 +197,29 @@
       empty.hidden = hasRows;
     }
 
+    function competitionRank(rows, sameValue) {
+      let lastValue = null;
+      let lastRank = 0;
+      return rows.map((row, index) => {
+        const value = sameValue(row);
+        if (index === 0 || value !== lastValue) {
+          lastRank = index + 1;
+          lastValue = value;
+        }
+        return lastRank;
+      });
+    }
+
     function renderAi(scores) {
       const table = document.getElementById('aiTable');
       const body = document.getElementById('aiBody');
       const empty = document.getElementById('aiEmpty');
       body.innerHTML = '';
+      const ranks = competitionRank(scores, row => row.volleys);
 
       scores.forEach((row, index) => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${index + 1}</td><td>${row.name}</td><td class="num">${row.volleys}</td><td class="num">${row.date}</td>`;
+        tr.innerHTML = `<td>${ranks[index]}</td><td>${row.name}</td><td class="num">${row.volleys}</td><td class="num">${row.date}</td>`;
         body.appendChild(tr);
       });
 
@@ -217,10 +231,11 @@
       const body = document.getElementById('classicBody');
       const empty = document.getElementById('classicEmpty');
       body.innerHTML = '';
+      const ranks = competitionRank(rows, row => `${row.wins}:${row.diff}`);
 
       rows.forEach((row, index) => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${index + 1}</td><td>${row.name}</td><td class="num">${row.wins}</td><td class="num">${row.diff}</td><td class="num">${row.date}</td>`;
+        tr.innerHTML = `<td>${ranks[index]}</td><td>${row.name}</td><td class="num">${row.wins}</td><td class="num">${row.diff}</td><td class="num">${row.date}</td>`;
         body.appendChild(tr);
       });
 
